@@ -1,0 +1,186 @@
+# ============================================================
+# Flow 프로젝트 중앙 설정 파일
+# ============================================================
+
+paths:
+  raw_dir:       "00_data/00_raw"
+  interim_dir:   "00_data/01_interim"
+  processed_dir: "00_data/02_processed"
+  artifacts_dir: "05_artifacts/faiss"
+
+  raw_files:
+    paulaschoice: "paulaschoice_ingredients.csv"
+    coos:         "coos_성분정보.csv"
+    hwahae:       "hwahae_all.csv"
+
+  output_files:
+    merged_json:  "ingredient_merged2.json"
+    product_db:   "product_db.csv"
+    chunk_prefix: "ingredient_chunks_preset"
+
+# ── 검증 설정 ────────────────────────────────────────────────
+validation:
+  paulaschoice:
+    required_cols: ["한글명", "영문명", "등급", "효과별", "분류", "성분설명"]
+  coos:
+    required_cols: ["성분명", "INCI", "기능", "스코어"]
+  hwahae:
+    required_cols: ["korean", "english", "product_id", "product_name"]
+
+# ── 전처리 설정 ──────────────────────────────────────────────
+preprocessing:
+  paulaschoice:
+    drop_cols: ["연관성분", "참고논문"]
+    rename_cols:
+      한글명:   ingredient_ko
+      영문명:   ingredient_en
+      등급:     rating
+      효과별:   effect
+      분류:     category
+      성분설명: description
+
+  coos:
+    drop_cols:
+      - URL
+      - 구명칭
+      - "EC No."
+      - 구조식
+      - "유럽 CosIng Ref No."
+      - 링크
+      - 한글명
+      - 이명
+    fillna_cols:
+      스코어:        "0"
+      "데이터 등급": "0"
+    rename_cols:
+      성분명:        ingredient_ko
+      INCI:          ingredient_en
+      기능:          function
+      종류:          type
+      "CAS No.":     cas_no
+      국가:          country
+      🇰🇷국내:       kr_restricted
+      🇨🇳중국:       cn_restricted
+      🇹🇼대만:       tw_restricted
+      🇯🇵일본:       jp_restricted
+      🇩🇪유럽:       eu_restricted
+      🇻🇳아세안:     asean_restricted
+      AI설명:        ai_description
+      스코어:        score
+      "데이터 등급": data_grade
+
+  hwahae:
+    drop_cols:
+      - discount_rate
+      - capacity
+      - sub_attrs
+      - sub_product_name
+      - concentration_info
+      - skin_type
+      - skin_remark_good
+      - skin_remark_bad
+    fillna_cols:
+      primary_attr: 클렌징
+    rename_cols:
+      korean:  ingredient_ko
+      english: ingredient_en
+
+  post_merge_drop_cols:
+    - hw_ingredient_id
+    - hw_is_allergy
+    - hw_purposes
+    - coos_cas_no
+    - coos_country
+    - hw_product_id
+    - hw_product_name
+    - hw_brand_name
+    - hw_ingredient_count
+    - hw_primary_attr
+    - hw_price
+    - hw_consumer_price
+    - hw_avg_ratings
+    - hw_review_count
+    - hw_topics_positive
+    - hw_topics_negative
+
+  coos_score_map:
+    안전: 1
+    주의: 2
+    위험: 3
+
+  pc_rating_map:
+    훌륭함:    1
+    좋음:      2
+    보통:      3
+    나쁨:      4
+    매우 나쁨: 5
+
+# ── product_db 컬럼 설정 ─────────────────────────────────────
+product_db:
+  source_cols:
+    - korean
+    - product_id
+    - product_name
+    - brand_name
+    - ingredient_count
+    - primary_attr
+    - price
+    - consumer_price
+    - avg_ratings
+    - review_count
+    - topics_positive
+    - topics_negative
+  rename_cols:
+    korean:           ingredient_ko
+    product_id:       hw_product_id
+    product_name:     hw_product_name
+    brand_name:       hw_brand_name
+    ingredient_count: hw_ingredient_count
+    primary_attr:     hw_primary_attr
+    price:            hw_price
+    consumer_price:   hw_consumer_price
+    avg_ratings:      hw_avg_ratings
+    review_count:     hw_review_count
+    topics_positive:  hw_topics_positive
+    topics_negative:  hw_topics_negative
+
+# ── 청킹 설정 ────────────────────────────────────────────────
+chunking:
+  priority_cols:
+    - pc_description
+    - coos_function
+    - coos_ai_description
+    - hw_ewg
+    - coos_score
+    - pc_effect
+    - coos_kr_restricted
+
+  weight_presets:
+    1: { ewg: 0.33, basic_info: 0.33, expert: 0.33 }
+    2: { ewg: 0.50, basic_info: 0.35, expert: 0.15 }
+    3: { ewg: 0.40, basic_info: 0.45, expert: 0.15 }
+    4: { ewg: 0.45, basic_info: 0.45, expert: 0.10 }
+
+  coos_score_label:
+    "1": "안전"
+    "2": "주의"
+    "3": "위험"
+
+# ── 임베딩 설정 ──────────────────────────────────────────────
+embedding:
+  # 임베딩 모델 선택: "huggingface" 또는 "openai"
+  provider: "openai"
+
+  # HuggingFace 설정 (provider: huggingface 일 때 사용)
+  huggingface:
+    model_name: "jhgan/ko-sroberta-multitask"
+    device:     "cuda"
+    normalize:  true
+
+  # OpenAI 설정 (provider: openai 일 때 사용)
+  openai:
+    model_name: "text-embedding-3-small"   # 1536d
+    # model_name: "text-embedding-3-large" # 3072d (최고품질, 5배 비쌈)
+    batch_size: 500                        # API 속도 제한 방지
+
+  faiss_save_prefix: "faiss_index_preset"
