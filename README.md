@@ -4,47 +4,6 @@
 
 ---
 
-## 팀 소개
-
-<table>
-  <tr align="center">
-    <td><img src="https://github.com/jjhhyy0926/motor-chata/blob/main/assets/minha.png?raw=true" width="120px"><br><b>김민하</b></td>
-    <td><img src="https://github.com/jjhhyy0926/motor-chata/blob/main/assets/jaehyun.png?raw=true" width="120px"><br><b>배재현</b></td>
-    <td><img src="https://github.com/jjhhyy0926/motor-chata/blob/main/assets/jihye.png?raw=true" width="120px"><br><b>윤지혜</b></td>
-    <td><img src="https://github.com/jjhhyy0926/motor-chata/blob/main/assets/yhjeon.png?raw=true" width="120px"><br><b>전윤하</b></td>
-    <td><img src="https://github.com/motor-chata/motor-chata/blob/main/assets/ekthf.png?raw=true" width="120px"><br><b>정다솔</b></td>
-    <td><img src="https://github.com/motor-chata/motor-chata/blob/main/assets/wlkstj.png?raw=true" width="120px"><br><b>홍진서</b></td>
-  </tr>
-  <tr align="center">
-    <td>
-      <a href="https://github.com/leedhroxx"><img src="https://img.shields.io/badge/GitHub-leedhroxx-181717?style=flat&logo=github&logoColor=white"></a><br>
-      <b>GitHub 총괄 관리</b><br>검색 엔진 성능 평가<br>최적 지표 분석
-    </td>
-    <td>
-      <a href="https://github.com/rshyun24"><img src="https://img.shields.io/badge/GitHub-rshyun24-181717?style=flat&logo=github&logoColor=white"></a><br>
-      <b>Vector DB 구축</b><br>FAISS 인덱스 구축<br>소스별 가중치 설계
-    </td>
-    <td>
-      <a href="https://github.com/jjhhyy0926"><img src="https://img.shields.io/badge/GitHub-jjhhyy0926-181717?style=flat&logo=github&logoColor=white"></a><br>
-      <b>프론트엔드 개발</b><br>Streamlit UI<br>EasyOCR 연동 구현
-    </td>
-    <td>
-      <a href="https://github.com/yoonha315"><img src="https://img.shields.io/badge/GitHub-yoonha315-181717?style=flat&logo=github&logoColor=white"></a><br>
-      <b>데이터 엔지니어링</b><br>데이터 청크 변환<br>임베딩 모델 최적화
-    </td>
-    <td>
-      <a href="https://github.com/soll07"><img src="https://img.shields.io/badge/GitHub-soll07-181717?style=flat&logo=github&logoColor=white"></a><br>
-      <b>RAG 파이프라인</b><br>LangChain 체인 구축<br>프롬프트 설계
-    </td>
-    <td>
-      <a href="https://github.com/Hong-Jin-seo"><img src="https://img.shields.io/badge/GitHub-Hong--Jin--seo-181717?style=flat&logo=github&logoColor=white"></a><br>
-      <b>Notion 체계 관리</b><br>Notion 환경 구축<br>가중치 알고리즘 개발
-    </td>
-  </tr>
-</table>
-
----
-
 ## 프로젝트 기간
 **2026.04.24 : 2026.04.27**
 
